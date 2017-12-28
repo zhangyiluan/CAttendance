@@ -27,7 +27,9 @@
                     android:layout_height="match_parent"
                     android:padding="40dp"
                     android:src="@drawable/ic_sign_in"
-                    android:layout_centerInParent="true"/>
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
             </RelativeLayout>
             <RelativeLayout
                 android:background="@drawable/btn_back"
