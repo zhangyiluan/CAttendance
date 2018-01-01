@@ -13,7 +13,6 @@ import com.example.administrator.signin_Teacher.R;
 import com.example.administrator.signin_Teacher.module.User;
 
 import cn.bmob.v3.Bmob;
-import cn.bmob.v3.BmobConfig;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.SaveListener;
 
@@ -27,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText keyword;
     private Button login;
     private TextView newuser;
-    public static String APPID ="d18dc21ea1355a2550e94437be49982e";//放入自己申请的bmob后端云key
+    public static String APPID ="";//放入自己申请的bmob后端云key
     private User bu = new User();
     private String user;
     private String pass;
@@ -41,19 +40,19 @@ public class LoginActivity extends AppCompatActivity {
         this.newuser = (TextView) findViewById(R.id.newUser);
         //提供以下两种方式进行初始化操作：
         //第一：设置BmobConfig，允许设置请求超时时间、文件分片上传时每片的大小、文件的过期时间(单位为秒)
-        BmobConfig config =new BmobConfig.Builder(this)
-                //设置appkey
-                .setApplicationId(APPID)
-                //请求超时时间（单位为秒）：默认15s
-                .setConnectTimeout(30)
-                //文件分片上传时每片的大小（单位字节），默认512*1024
-                .setUploadBlockSize(1024*1024)
-                //文件的过期时间(单位为秒)：默认1800s
-                .setFileExpiration(5500)
-                .build();
-        Bmob.initialize(config);
+//        BmobConfig config =new BmobConfig.Builder(this)
+//                //设置appkey
+//                .setApplicationId(APPID)
+//                //请求超时时间（单位为秒）：默认15s
+//                .setConnectTimeout(30)
+//                //文件分片上传时每片的大小（单位字节），默认512*1024
+//                .setUploadBlockSize(1024*1024)
+//                //文件的过期时间(单位为秒)：默认1800s
+//                .setFileExpiration(5500)
+//                .build();
+//        Bmob.initialize(config);
         //第二：默认初始化
-        Bmob.initialize(this,APPID);
+        Bmob.initialize(this,"d18dc21ea1355a2550e94437be49982e");
         newuser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

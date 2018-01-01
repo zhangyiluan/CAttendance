@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/sign_in"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="考勤" />
+        <item
+            android:id="@+id/curriculum"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="课程设置" />
+        <item
+            android:id="@+id/check"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="查看考勤" />
+
+    </group>
+
+    <item android:title="设置">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="分享" />
+            <item
+            android:id="@+id/change_key"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="更改密码" />
+
+
+        </menu>
+    </item>
+
+</menu>

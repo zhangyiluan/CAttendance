@@ -2,4 +2,8 @@
     <string name="app_name">Sign In</string>
     <string name="title_activity_set_course">SetCourse</string>
     <string name="title_activity_see_sign_on">SeeSignOn</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
 </resources>
