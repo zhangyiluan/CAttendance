@@ -1,6 +1,8 @@
 package com.example.administrator.signin_Teacher.view;
 
 import android.Manifest;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -41,6 +43,7 @@ import com.example.administrator.signin_Teacher.R;
 import com.example.administrator.signin_Teacher.module.Course;
 import com.example.administrator.signin_Teacher.module.GeoPoint;
 import com.example.administrator.signin_Teacher.module.User;
+import com.example.administrator.signin_Teacher.tool.MyReceiver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +56,8 @@ import cn.bmob.v3.listener.UpdateListener;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
+    private DevicePolicyManager dpm;
+    private ComponentName component;
 
     private TextView positionText;
 
@@ -118,6 +123,7 @@ public class MainActivity extends AppCompatActivity
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy
         );//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
+        baiduMap.setMapStatus(MapStatusUpdateFactory.zoomTo(16f));
         option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系
         int span = 5000;
         option.setScanSpan(span);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
@@ -134,6 +140,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        dpm = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE);
+        component = new ComponentName(this, MyReceiver.class);
+
         mLocationClient = new LocationClient(getApplicationContext());
         mLocationClient.registerLocationListener(new MyLocationListener());
         SDKInitializer.initialize(getApplicationContext());
@@ -261,6 +271,19 @@ public class MainActivity extends AppCompatActivity
                                                             getSharedPreferences("data", MODE_PRIVATE).edit().putBoolean("signFlag", true).apply();
                                                             getSharedPreferences("data", MODE_PRIVATE).edit().putInt("signId", id).apply();
                                                             getSharedPreferences("data", MODE_PRIVATE).edit().putString("signObjectId", point.getObjectId()).apply();
+                                                            if (dpm.isAdminActive(component)) {
+                                                                dpm.lockNow();
+                                                            } else {
+                                                                openAdmin();
+                                                            }
+                                                            finish();
+                                                        }
+
+                                                        public void openAdmin() {
+                                                            Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+                                                            intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, component);
+                                                            intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "Only after opening administrator can be used");
+                                                            startActivity(intent);
                                                         }
 
                                                         @Override
@@ -305,8 +328,8 @@ public class MainActivity extends AppCompatActivity
             LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
             MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(ll);
             baiduMap.animateMapStatus(update);
-            update = MapStatusUpdateFactory.zoomTo(16f);
-            baiduMap.animateMapStatus(update);
+//            update = MapStatusUpdateFactory.zoomTo(16f);
+//            baiduMap.animateMapStatus(update);
             isFirstLocate = false;
         }
         MyLocationData.Builder locationBuilder = new MyLocationData.
