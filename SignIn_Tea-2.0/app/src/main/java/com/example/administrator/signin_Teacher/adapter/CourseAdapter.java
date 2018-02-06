@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import com.example.administrator.signin_Teacher.R;
 import com.example.administrator.signin_Teacher.module.Course;
@@ -41,7 +42,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         Course course = mList.get(position);
-        holder.name.setText(course.getCourseName() + "(" + course.getTeacherName() + ")");
+        holder.name.setText(course.getCourseName());
+        holder.id.setText(course.getTeacherName());
         holder.name.setOnCheckedChangeListener(null);
         holder.name.setChecked(flag.get(position));
         holder.name.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -54,9 +56,11 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         CheckBox name;
+        TextView id;
         public ViewHolder(View view){
             super(view);
             name = (CheckBox) view.findViewById(R.id.setCourse);
+            id = (TextView) view.findViewById(R.id.set_teacher_id);
         }
     }
     public ArrayList<Boolean> getFlag(){return flag;}

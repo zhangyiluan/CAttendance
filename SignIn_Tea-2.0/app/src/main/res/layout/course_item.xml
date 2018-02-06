@@ -1,10 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <CheckBox
-        android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    android:orientation="vertical">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/green"
+        android:clickable="true"
+        android:id="@+id/choose_course"
+        android:orientation="vertical"
+        >
+
+
+        <CheckBox
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:id="@+id/setCourse"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="25dp" >
+
+        </CheckBox>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/set_teacher_id"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="end"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+
+            />
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/setCourse"
-        android:text="默认"/>
+        android:textSize="2dp"/>
 </LinearLayout>
