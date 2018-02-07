@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -69,14 +70,14 @@ public class MainActivity extends AppCompatActivity
 
     private android.widget.Button record;
     private Button not;
-    private Button startsignin;
+    private FloatingActionButton startsignin;
     public LocationClient mLocationClient = null;
     public BDLocationListener myListener = new MyLocationListener();
     private int id;
     private String cId;
     public static GeoPoint point;
     public static List<Course> mList;
-    private android.widget.Button shownum;
+    private FloatingActionButton shownum;
 
     private Button setCourse;
     public static User user;
@@ -184,9 +185,9 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        this.shownum = (Button) findViewById(R.id.show_num);
+        this.shownum = (FloatingActionButton) findViewById(R.id.show_num);
         user = BmobUser.getCurrentUser(MainActivity.this,User.class);
-        this.startsignin = (Button) findViewById(R.id.start_sign_in);
+        this.startsignin = (FloatingActionButton) findViewById(R.id.start_sign_in);
         mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
         mLocationClient.registerLocationListener(myListener);    //注册监听函数
         initData();

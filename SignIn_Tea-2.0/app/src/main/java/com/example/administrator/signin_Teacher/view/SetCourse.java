@@ -2,6 +2,7 @@ package com.example.administrator.signin_Teacher.view;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -44,10 +45,80 @@ public class SetCourse extends AppCompatActivity {
         setSupportActionBar(toolbar);
         user = BmobUser.getCurrentUser(SetCourse.this,User.class);
         setCourse = (RecyclerView) findViewById(R.id.setCourse);
+
         LinearLayoutManager manager = new LinearLayoutManager(SetCourse.this);
         setCourse.setLayoutManager(manager);
         adapter = new CourseAdapter(mList);
         setCourse.setAdapter(adapter);
+
+
+        FloatingActionButton addCourse = (FloatingActionButton) findViewById(R.id.addCourse);
+        addCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(SetCourse.this);
+                LayoutInflater layoutInflater = LayoutInflater.from(SetCourse.this);
+                final View conView = layoutInflater.inflate(R.layout.new_course_item, null);
+                final EditText editText = (EditText) conView.findViewById(R.id.courseName);
+                builder.setView(conView);
+                builder.setTitle("请输入课程名称");
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                final Course course = new Course();
+                                int teacher = Integer.valueOf(user.getUsername());
+                                String courseName = editText.getText().toString();
+                                course.setCourseName(courseName);
+                                course.setTeacherName(user.getName());
+                                course.setId(Integer.valueOf(user.getUsername()));
+                                course.setcId(course.getObjectId());
+                                BmobQuery<Course> query1 = new BmobQuery<Course>();
+                                query1.addWhereEqualTo("courseName",courseName);
+                                query1.addWhereEqualTo("Id",teacher);
+                                query1.findObjects(SetCourse.this, new FindListener<Course>() {
+                                    @Override
+                                    public void onSuccess(List<Course> list) {
+                                        if (list.isEmpty()){
+                                            course.save(SetCourse.this, new SaveListener() {
+                                                @Override
+                                                public void onSuccess() {
+                                                    Toast.makeText(SetCourse.this, "添加课程成功！", Toast.LENGTH_SHORT).show();
+                                                    mList.add(course);
+                                                    adapter.notifyItemInserted(mList.size() - 1);
+                                                }
+
+                                                @Override
+                                                public void onFailure(int i, String s) {
+                                                    Toast.makeText(SetCourse.this, "添加课程失败！", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        }else {
+                                            Toast.makeText(SetCourse.this, "课程已经存在", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(int i, String s) {
+
+                                    }
+                                });
+                            }
+                        }).start();
+                    }
+                });
+                builder.show();
+
+            }
+        });
     }
 
     @Override
@@ -60,67 +131,7 @@ public class SetCourse extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.addCourse) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(SetCourse.this);
-            LayoutInflater layoutInflater = LayoutInflater.from(SetCourse.this);
-            final View conView = layoutInflater.inflate(R.layout.new_course_item, null);
-            final EditText editText = (EditText) conView.findViewById(R.id.courseName);
-            builder.setView(conView);
-            builder.setTitle("请输入课程名称");
-            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                }
-            });
-            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        final Course course = new Course();
-                        int teacher = Integer.valueOf(user.getUsername());
-                        String courseName = editText.getText().toString();
-                        course.setCourseName(courseName);
-                        course.setTeacherName(user.getName());
-                        course.setId(Integer.valueOf(user.getUsername()));
-                        course.setcId(course.getObjectId());
-                        BmobQuery<Course> query1 = new BmobQuery<Course>();
-                        query1.addWhereEqualTo("courseName",courseName);
-                        query1.addWhereEqualTo("Id",teacher);
-                        query1.findObjects(SetCourse.this, new FindListener<Course>() {
-                            @Override
-                            public void onSuccess(List<Course> list) {
-                                if (list.isEmpty()){
-                                    course.save(SetCourse.this, new SaveListener() {
-                                        @Override
-                                        public void onSuccess() {
-                                            Toast.makeText(SetCourse.this, "添加课程成功！", Toast.LENGTH_SHORT).show();
-                                            mList.add(course);
-                                            adapter.notifyItemInserted(mList.size() - 1);
-                                        }
-
-                                        @Override
-                                        public void onFailure(int i, String s) {
-                                            Toast.makeText(SetCourse.this, "添加课程失败！", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                }else {
-                                    Toast.makeText(SetCourse.this, "课程已经存在", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-
-                            @Override
-                            public void onError(int i, String s) {
-
-                            }
-                        });
-                    }
-                }).start();
-                    }
-            });
-            builder.show();
-        }else if (id == R.id.deleteCourse){
+         if (id == R.id.deleteCourse){
             final ArrayList<Boolean> flag = adapter.getFlag();
             for (int i = flag.size() - 1; i >= 0; i--) {
                 if (flag.get(i)){
