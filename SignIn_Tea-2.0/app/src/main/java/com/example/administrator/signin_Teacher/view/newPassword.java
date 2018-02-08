@@ -2,6 +2,7 @@ package com.example.administrator.signin_Teacher.view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,7 +36,9 @@ public class newPassword extends AppCompatActivity {
         this.usedPass = (EditText) findViewById(R.id.usedPass);
         this.showAccount = (TextView) findViewById(R.id.show_account);
         showAccount.setText(user.getName());
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         newPassOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

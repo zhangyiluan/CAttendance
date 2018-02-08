@@ -2,63 +2,84 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/item_background">
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="请输入工号"
-        android:background="@drawable/setting_in_shape"
-        android:textColor="@color/item_text_color"
-        android:textColorHint="@color/item_text_color"
-        android:layout_margin="8dp"
-        android:id="@+id/newUserAccount"
-        android:inputType="number"
-        android:textSize="24dp"
-        android:padding="16sp"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/item_text_color"
-        android:textColorHint="@color/item_text_color"
-        android:background="@drawable/setting_in_shape"
-        android:hint="请输入姓名"
-        android:layout_margin="8sp"
-        android:id="@+id/name"
-        android:inputType="textPersonName"
-        android:padding="16sp"
-        android:textSize="24dp"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/setting_in_shape"
-        android:textColor="@color/item_text_color"
-        android:textColorHint="@color/item_text_color"
-        android:inputType="textPassword"
-        android:hint="请输入密码"
-        android:layout_margin="8sp"
-        android:id="@+id/newUserPassword"
-        android:padding="16sp"
-        android:textSize="24dp"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/item_text_color"
-        android:textColorHint="@color/item_text_color"
-        android:background="@drawable/setting_in_shape"
-        android:hint="确认密码"
-        android:layout_margin="8sp"
-        android:id="@+id/newPasswordConfirm"
-        android:inputType="textPassword"
-        android:padding="16sp"
-        android:textSize="24dp"/>
+    android:background="@drawable/graybj">
 
-        <Button
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#20000000"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/newUserAccount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="确定"
-            android:textSize="32sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="70dp"
+            android:background="@drawable/setting_in_shape"
+            android:hint="请输入工号"
+            android:inputType="number"
+            android:padding="16sp"
             android:textColor="@color/item_text_color"
+            android:textColorHint="@color/item_text_color"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/setting_in_shape"
+            android:hint="请输入姓名"
+            android:inputType="textPersonName"
+            android:padding="16sp"
+            android:textColor="@color/item_text_color"
+            android:textColorHint="@color/item_text_color"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/newUserPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/setting_in_shape"
+            android:hint="请输入密码"
+            android:inputType="textPassword"
+            android:padding="16sp"
+            android:textColor="@color/item_text_color"
+            android:textColorHint="@color/item_text_color"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/newPasswordConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/setting_in_shape"
+            android:hint="确认密码"
+            android:inputType="textPassword"
+            android:padding="16sp"
+            android:textColor="@color/item_text_color"
+            android:textColorHint="@color/item_text_color"
+            android:textSize="20dp" />
+
+        <Button
             android:id="@+id/newUserOk"
-            android:layout_margin="8sp"
-            />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/colorAccent"
+            android:text="确定"
+            android:textColor="#FFFFFF"
+            android:textSize="32sp" />
+    </LinearLayout>
 </LinearLayout>

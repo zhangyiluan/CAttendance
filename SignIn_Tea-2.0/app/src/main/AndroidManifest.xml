@@ -30,7 +30,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="考勤系统"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="5ubBGbOZYGZROLaFMpQbPP9nfaDDXiZq" />
@@ -69,7 +69,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.CheckActivity" />
+        <activity android:name=".view.CheckActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
         <activity android:name=".view.NewUser" />
         <activity android:name=".view.RecordActivity" />
         <activity android:name=".view.NotArriveActivity" />
