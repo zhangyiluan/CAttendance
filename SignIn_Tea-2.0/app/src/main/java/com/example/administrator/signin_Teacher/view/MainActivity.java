@@ -13,9 +13,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -41,8 +44,12 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.example.administrator.signin_Teacher.R;
+import com.example.administrator.signin_Teacher.adapter.UnSignOnAdapter;
 import com.example.administrator.signin_Teacher.module.Course;
 import com.example.administrator.signin_Teacher.module.GeoPoint;
+import com.example.administrator.signin_Teacher.module.NotArrive;
+import com.example.administrator.signin_Teacher.module.Record;
+import com.example.administrator.signin_Teacher.module.StudentCourse;
 import com.example.administrator.signin_Teacher.module.User;
 import com.example.administrator.signin_Teacher.tool.MyReceiver;
 
@@ -51,6 +58,7 @@ import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.listener.DeleteListener;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
@@ -83,6 +91,18 @@ public class MainActivity extends AppCompatActivity
     public static User user;
     private Button setuser;
     private android.widget.LinearLayout activitymain;
+
+
+
+
+    private List<Record> jList;
+    private List<StudentCourse> mStudentList;
+    private TextView signOnCount;
+    private RecyclerView mRecycler;
+    private Button endsignin;
+    public static List<StudentCourse> mUnSignOn;
+    private UnSignOnAdapter adapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private void initData(){
         BmobQuery<GeoPoint> query1 = new BmobQuery();
@@ -120,6 +140,57 @@ public class MainActivity extends AppCompatActivity
             }
         });
     }
+    public void initData1() {
+
+        BmobQuery<Record> query = new BmobQuery<>();
+        query.addWhereEqualTo("cId", point.getcId());
+        query.addWhereGreaterThanOrEqualTo("in_time", point.getTime());
+        query.findObjects(MainActivity.this, new FindListener<Record>() {
+            @Override
+            public void onSuccess(List<Record> list) {
+                jList = list;
+                for (int i = 0; i < mUnSignOn.size(); i++) {
+                    mUnSignOn.remove(i);
+                }
+                mUnSignOn = new ArrayList<StudentCourse>();
+                swipeRefreshLayout.setRefreshing(false);
+                signOnCount.setText(list.size() + "/" + mStudentList.size());
+                for (int i = 0; i < mStudentList.size(); i++) {
+                    boolean flag = false;
+                    for (Record record:list) {
+                        if (mStudentList.get(i).getsId() == record.getID()){
+                            flag = true;
+                        }
+                    }
+                    if (!flag){
+                        mUnSignOn.add(mStudentList.get(i));
+                    }
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(int i, String s) {
+
+            }
+        });
+    }
+    private void initStudentData(){
+        BmobQuery<StudentCourse> query = new BmobQuery<>();
+        query.addWhereEqualTo("cId",point.getcId());
+        query.findObjects(MainActivity.this, new FindListener<StudentCourse>() {
+            @Override
+            public void onSuccess(List<StudentCourse> list) {
+                mStudentList = list;
+            }
+
+            @Override
+            public void onError(int i, String s) {
+
+            }
+        });
+    }
+
     private void initLocation() {
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy
@@ -149,6 +220,33 @@ public class MainActivity extends AppCompatActivity
         mLocationClient.registerLocationListener(new MyLocationListener());
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
+
+
+        signOnCount = (TextView)findViewById(R.id.sign_on_count);
+        mRecycler = (RecyclerView)findViewById(R.id.sign_on_person);
+        LinearLayoutManager manager = new LinearLayoutManager(MainActivity.this);
+        mRecycler.setLayoutManager(manager);
+        mUnSignOn = new ArrayList<StudentCourse>();
+        adapter = new UnSignOnAdapter(mUnSignOn);
+        mRecycler.setAdapter(adapter);
+        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.mRefresh);
+        //设置刷新时动画的颜色，可以设置4个
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light,
+                android.R.color.holo_orange_light, android.R.color.holo_green_light);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (point == null) {
+                    Toast.makeText(MainActivity.this, "还未发起签到", Toast.LENGTH_SHORT).show();
+                }else {
+                    initStudentData();
+                    initData1();
+
+                }
+            }
+        });
+
+
         //百度地图
 
         mapView = (MapView) findViewById(R.id.bmapView);
@@ -192,13 +290,74 @@ public class MainActivity extends AppCompatActivity
         mLocationClient.registerLocationListener(myListener);    //注册监听函数
         initData();
         initLocation();
+
+
+        if (point == null) {
+            signOnCount.setText("未发起签到");
+        }else {
+            initStudentData();
+            initData1();
+
+        }
         mLocationClient.start();
         shownum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,SeeSignOn.class));
-            }
-        });
+                    @Override
+                    public void onClick(View v) {
+                        BmobQuery<GeoPoint> geoQuery = new BmobQuery<GeoPoint>();
+                        geoQuery.addWhereEqualTo("tId",Integer.valueOf(user.getUsername()));
+                        geoQuery.findObjects(MainActivity.this, new FindListener<GeoPoint>() {
+                            @Override
+                            public void onSuccess(List<GeoPoint> list) {
+                                if (list.isEmpty()){
+                                    Toast.makeText(MainActivity.this, "未发起签到", Toast.LENGTH_SHORT).show();
+                                }else {
+                                    if (mUnSignOn == null){
+                                        Toast.makeText(MainActivity.this, "请先查看签到情况", Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        for (StudentCourse stu:mUnSignOn){
+                                            NotArrive not = new NotArrive();
+                                            not.setName(stu.getName());
+                                            not.setId(stu.getsId());
+                                            not.setTime(System.currentTimeMillis());
+                                            not.setcId(stu.getcId());
+                                            not.save(MainActivity.this, new SaveListener() {
+                                                @Override
+                                                public void onSuccess() {
+
+                                                }
+
+                                                @Override
+                                                public void onFailure(int i, String s) {
+
+                                                }
+                                            });
+                                        }
+                                    }
+                                    point = list.get(0);
+                                    point.delete(MainActivity.this, new DeleteListener() {
+                                        @Override
+                                        public void onSuccess() {
+                                            Toast.makeText(MainActivity.this, "已结束签到！", Toast.LENGTH_SHORT).show();
+                                        }
+
+                                        @Override
+                                        public void onFailure(int i, String s) {
+
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onError(int i, String s) {
+
+                            }
+                        });
+                    }
+                });
+
+
+
         //发起签到
         startsignin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -272,12 +431,12 @@ public class MainActivity extends AppCompatActivity
                                                             getSharedPreferences("data", MODE_PRIVATE).edit().putBoolean("signFlag", true).apply();
                                                             getSharedPreferences("data", MODE_PRIVATE).edit().putInt("signId", id).apply();
                                                             getSharedPreferences("data", MODE_PRIVATE).edit().putString("signObjectId", point.getObjectId()).apply();
-                                                            if (dpm.isAdminActive(component)) {
-                                                                dpm.lockNow();
-                                                            } else {
-                                                                openAdmin();
-                                                            }
-                                                            finish();
+//                                                            if (dpm.isAdminActive(component)) {
+//                                                                dpm.lockNow();
+//                                                            } else {
+//                                                                openAdmin();
+//                                                            }
+//                                                            finish();
                                                         }
 
                                                         public void openAdmin() {
@@ -322,6 +481,7 @@ public class MainActivity extends AppCompatActivity
         });
 
     }
+
     //百度地图
     private void navigateTo(BDLocation location) {
         if (isFirstLocate) {
