@@ -22,7 +22,8 @@
         <!--android:text="结束签到" />-->
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/darkgray">
 
         <TextView
             android:id="@+id/position_text_view"
@@ -35,7 +36,7 @@
             android:id="@+id/bmapView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
             android:clickable="true" />
 
 

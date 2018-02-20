@@ -1,5 +1,6 @@
 package com.example.administrator.signin_Teacher.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,10 +19,11 @@ import java.util.List;
 public class UnSignOnAdapter extends RecyclerView.Adapter<UnSignOnAdapter.ViewHolder> {
     private List<StudentCourse> mList;
 
-    public UnSignOnAdapter(List<StudentCourse> list){mList = list;}
+    public UnSignOnAdapter(Context context, int sign_on_person_idjkjk, List<StudentCourse> list){mList = list;}
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.un_sign_on_item,parent,false));
+
     }
 
     @Override
@@ -29,6 +31,7 @@ public class UnSignOnAdapter extends RecyclerView.Adapter<UnSignOnAdapter.ViewHo
         StudentCourse course = mList.get(position);
         holder.name.setText(course.getName());
         holder.id.setText("学号：" + course.getsId());
+
     }
 
     @Override
@@ -43,6 +46,7 @@ public class UnSignOnAdapter extends RecyclerView.Adapter<UnSignOnAdapter.ViewHo
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.student_name);
             id = (TextView) itemView.findViewById(R.id.student_Id);
+
         }
     }
 }

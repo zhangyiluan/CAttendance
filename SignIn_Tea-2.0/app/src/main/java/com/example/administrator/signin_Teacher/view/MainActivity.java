@@ -65,6 +65,8 @@ import cn.bmob.v3.listener.UpdateListener;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
+    private static final int UPDATE_TEXT1=1;
+    private static final int UPDATE_TEXT2=2;
     private DevicePolicyManager dpm;
     private ComponentName component;
 
@@ -104,6 +106,8 @@ public class MainActivity extends AppCompatActivity
     private UnSignOnAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
 
+
+
     private void initData(){
         BmobQuery<GeoPoint> query1 = new BmobQuery();
         query1.addWhereEqualTo("tId",Integer.valueOf(user.getUsername()));
@@ -140,6 +144,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
     }
+
     public void initData1() {
 
         BmobQuery<Record> query = new BmobQuery<>();
@@ -152,7 +157,7 @@ public class MainActivity extends AppCompatActivity
                 for (int i = 0; i < mUnSignOn.size(); i++) {
                     mUnSignOn.remove(i);
                 }
-                mUnSignOn = new ArrayList<StudentCourse>();
+               // mUnSignOn = new ArrayList<StudentCourse>();
                 swipeRefreshLayout.setRefreshing(false);
                 signOnCount.setText(list.size() + "/" + mStudentList.size());
                 for (int i = 0; i < mStudentList.size(); i++) {
@@ -175,6 +180,18 @@ public class MainActivity extends AppCompatActivity
             }
         });
     }
+//    private Handler handlder=new Handler(){
+//        public void handleMessage(Message msg){
+//            switch (msg.what){
+//                case UPDATE_TEXT1:
+//                    signOnCount.setText("未发起签到");
+//                    break;
+//
+//                default:
+//                    break;
+//            }
+//        }
+//    };
     private void initStudentData(){
         BmobQuery<StudentCourse> query = new BmobQuery<>();
         query.addWhereEqualTo("cId",point.getcId());
@@ -220,15 +237,16 @@ public class MainActivity extends AppCompatActivity
         mLocationClient.registerLocationListener(new MyLocationListener());
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
+        user = BmobUser.getCurrentUser(MainActivity.this,User.class);
 
-
+        initData();
         signOnCount = (TextView)findViewById(R.id.sign_on_count);
         mRecycler = (RecyclerView)findViewById(R.id.sign_on_person);
-        LinearLayoutManager manager = new LinearLayoutManager(MainActivity.this);
-        mRecycler.setLayoutManager(manager);
-        mUnSignOn = new ArrayList<StudentCourse>();
-        adapter = new UnSignOnAdapter(mUnSignOn);
-        mRecycler.setAdapter(adapter);
+//        LinearLayoutManager manager = new LinearLayoutManager(MainActivity.this);
+//        mRecycler.setLayoutManager(manager);
+//        mUnSignOn = new ArrayList<StudentCourse>();
+//        adapter = new UnSignOnAdapter(mUnSignOn);
+//        mRecycler.setAdapter(adapter);
         swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.mRefresh);
         //设置刷新时动画的颜色，可以设置4个
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light,
@@ -238,17 +256,27 @@ public class MainActivity extends AppCompatActivity
             public void onRefresh() {
                 if (point == null) {
                     Toast.makeText(MainActivity.this, "还未发起签到", Toast.LENGTH_SHORT).show();
+                    swipeRefreshLayout.setRefreshing(false);
+//                    new Thread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Message message=new Message();
+//                            message.what=UPDATE_TEXT1;
+//                            handlder.sendMessage(message);
+//                        }
+//                    }).start();
+                    signOnCount.setText("未发起签到");
                 }else {
                     initStudentData();
                     initData1();
 
                 }
+
             }
         });
 
 
         //百度地图
-
         mapView = (MapView) findViewById(R.id.bmapView);
         baiduMap = mapView.getMap();
         baiduMap.setMyLocationEnabled(true);
@@ -284,77 +312,12 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         this.shownum = (FloatingActionButton) findViewById(R.id.show_num);
-        user = BmobUser.getCurrentUser(MainActivity.this,User.class);
+//        user = BmobUser.getCurrentUser(MainActivity.this,User.class);
         this.startsignin = (FloatingActionButton) findViewById(R.id.start_sign_in);
         mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
         mLocationClient.registerLocationListener(myListener);    //注册监听函数
-        initData();
         initLocation();
-
-
-        if (point == null) {
-            signOnCount.setText("未发起签到");
-        }else {
-            initStudentData();
-            initData1();
-
-        }
         mLocationClient.start();
-        shownum.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        BmobQuery<GeoPoint> geoQuery = new BmobQuery<GeoPoint>();
-                        geoQuery.addWhereEqualTo("tId",Integer.valueOf(user.getUsername()));
-                        geoQuery.findObjects(MainActivity.this, new FindListener<GeoPoint>() {
-                            @Override
-                            public void onSuccess(List<GeoPoint> list) {
-                                if (list.isEmpty()){
-                                    Toast.makeText(MainActivity.this, "未发起签到", Toast.LENGTH_SHORT).show();
-                                }else {
-                                    if (mUnSignOn == null){
-                                        Toast.makeText(MainActivity.this, "请先查看签到情况", Toast.LENGTH_SHORT).show();
-                                    }else{
-                                        for (StudentCourse stu:mUnSignOn){
-                                            NotArrive not = new NotArrive();
-                                            not.setName(stu.getName());
-                                            not.setId(stu.getsId());
-                                            not.setTime(System.currentTimeMillis());
-                                            not.setcId(stu.getcId());
-                                            not.save(MainActivity.this, new SaveListener() {
-                                                @Override
-                                                public void onSuccess() {
-
-                                                }
-
-                                                @Override
-                                                public void onFailure(int i, String s) {
-
-                                                }
-                                            });
-                                        }
-                                    }
-                                    point = list.get(0);
-                                    point.delete(MainActivity.this, new DeleteListener() {
-                                        @Override
-                                        public void onSuccess() {
-                                            Toast.makeText(MainActivity.this, "已结束签到！", Toast.LENGTH_SHORT).show();
-                                        }
-
-                                        @Override
-                                        public void onFailure(int i, String s) {
-
-                                        }
-                                    });
-                                }
-                            }
-
-                            @Override
-                            public void onError(int i, String s) {
-
-                            }
-                        });
-                    }
-                });
 
 
 
@@ -479,6 +442,75 @@ public class MainActivity extends AppCompatActivity
             });
             }
         });
+        LinearLayoutManager manager = new LinearLayoutManager(MainActivity.this);
+        mRecycler.setLayoutManager(manager);
+        mUnSignOn = new ArrayList<StudentCourse>();
+        adapter = new UnSignOnAdapter(MainActivity.this,R.id.sign_on_person,mUnSignOn);
+        mRecycler.setAdapter(adapter);
+        shownum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BmobQuery<GeoPoint> geoQuery = new BmobQuery<GeoPoint>();
+                geoQuery.addWhereEqualTo("tId",Integer.valueOf(user.getUsername()));
+                geoQuery.findObjects(MainActivity.this, new FindListener<GeoPoint>() {
+                    @Override
+                    public void onSuccess(List<GeoPoint> list) {
+                        if (list.isEmpty()){
+                            Toast.makeText(MainActivity.this, "未发起签到", Toast.LENGTH_SHORT).show();
+                        }else {
+                            if (mUnSignOn == null){
+                                Toast.makeText(MainActivity.this, "请先查看签到情况", Toast.LENGTH_SHORT).show();
+                            }else{
+                                for (StudentCourse stu:mUnSignOn){
+                                    NotArrive not = new NotArrive();
+                                    not.setName(stu.getName());
+                                    not.setId(stu.getsId());
+                                    not.setTime(System.currentTimeMillis());
+                                    not.setcId(stu.getcId());
+                                    not.save(MainActivity.this, new SaveListener() {
+                                        @Override
+                                        public void onSuccess() {
+
+                                        }
+
+                                        @Override
+                                        public void onFailure(int i, String s) {
+
+                                        }
+                                    });
+                                }
+                            }
+                            point = list.get(0);
+                            point.delete(MainActivity.this, new DeleteListener() {
+                                @Override
+                                public void onSuccess() {
+                                    Toast.makeText(MainActivity.this, "已结束签到！", Toast.LENGTH_SHORT).show();
+                                    point=null;
+                                }
+
+                                @Override
+                                public void onFailure(int i, String s) {
+
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onError(int i, String s) {
+
+                    }
+                });
+            }
+        });
+        if (point == null) {
+            signOnCount.setText("未发起签到");
+        }else {
+            initStudentData();
+            initData1();
+
+        }
+
 
     }
 
