@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity
     private int id;
     private String cId;
     public static GeoPoint point;
+    public static Record record2;
     public static List<Course> mList;
     private FloatingActionButton shownum;
 
@@ -160,17 +161,18 @@ public class MainActivity extends AppCompatActivity
                // mUnSignOn = new ArrayList<StudentCourse>();
                 swipeRefreshLayout.setRefreshing(false);
                 signOnCount.setText(list.size() + "/" + mStudentList.size());
-                for (int i = 0; i < mStudentList.size(); i++) {
-                    boolean flag = false;
-                    for (Record record:list) {
-                        if (mStudentList.get(i).getsId() == record.getID()){
-                            flag = true;
+
+                    for (int i = 0; i < mStudentList.size(); ++i) {
+                        boolean flag = false;
+                        for (Record record : list) {
+                            if (mStudentList.get(i).getsId() == record.getID()) {
+                                flag = true;
+                            }
+                        }
+                        if (!flag) {
+                               mUnSignOn.add(mStudentList.get(i));
                         }
                     }
-                    if (!flag){
-                        mUnSignOn.add(mStudentList.get(i));
-                    }
-                }
                 adapter.notifyDataSetChanged();
             }
 
@@ -254,6 +256,10 @@ public class MainActivity extends AppCompatActivity
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                if(record==null){
+                    swipeRefreshLayout.setRefreshing(false);
+                    mRecycler.removeAllViews();
+                }
                 if (point == null) {
                     Toast.makeText(MainActivity.this, "还未发起签到", Toast.LENGTH_SHORT).show();
                     swipeRefreshLayout.setRefreshing(false);
@@ -486,6 +492,8 @@ public class MainActivity extends AppCompatActivity
                                 public void onSuccess() {
                                     Toast.makeText(MainActivity.this, "已结束签到！", Toast.LENGTH_SHORT).show();
                                     point=null;
+                                    record=null;
+
                                 }
 
                                 @Override
@@ -505,10 +513,6 @@ public class MainActivity extends AppCompatActivity
         });
         if (point == null) {
             signOnCount.setText("未发起签到");
-        }else {
-            initStudentData();
-            initData1();
-
         }
 
 
@@ -630,7 +634,7 @@ public class MainActivity extends AppCompatActivity
             Intent intent=new Intent(MainActivity.this,SetCourse.class);
             startActivity(intent);
         } else if (id == R.id.check) {
-            Intent intent=new Intent(MainActivity.this,CheckActivity.class);
+            Intent intent=new Intent(MainActivity.this,RecordActivity.class);
             startActivity(intent);
         } else if (id == R.id.change_key) {
             Intent intent=new Intent(MainActivity.this,newPassword.class);

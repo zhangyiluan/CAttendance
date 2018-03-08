@@ -19,7 +19,9 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.administrator.signin_Teacher.R;
+import com.example.administrator.signin_Teacher.adapter.NotArriveAdapter;
 import com.example.administrator.signin_Teacher.adapter.RecordAdapter;
+import com.example.administrator.signin_Teacher.module.NotArrive;
 import com.example.administrator.signin_Teacher.module.Record;
 import com.example.administrator.signin_Teacher.module.User;
 
@@ -49,7 +51,7 @@ public class RecordActivity extends AppCompatActivity {
     private Button query;
     private TextView startText;
     private TextView endText;
-    private String cId;
+    private String cId,cWhich;
     private RecyclerView recycler;
     private android.widget.LinearLayout activityrecord;
     @Override
@@ -57,25 +59,26 @@ public class RecordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
         RecyclerView recycler = (RecyclerView) findViewById(R.id.recycler);
-        Spinner spinner = (Spinner) findViewById(R.id.select_course);
+        Spinner spinner1 = (Spinner) findViewById(R.id.select_course);
+        final Spinner spinner2 = (Spinner) findViewById(R.id.select_which);
         TextView endText = (TextView) findViewById(R.id.endText);
         TextView startText = (TextView) findViewById(R.id.startText);
-        Button endbtn = (Button) findViewById(R.id.endbtn);
-        Button startbtn = (Button) findViewById(R.id.startbtn);
+       // Button endbtn = (Button) findViewById(R.id.endbtn);
+       // Button startbtn = (Button) findViewById(R.id.startbtn);
         this.activityrecord = (LinearLayout) findViewById(R.id.activity_record);
         this.recycler = (RecyclerView) findViewById(R.id.recycler);
         this.endText = (TextView) findViewById(R.id.endText);
         this.startText = (TextView) findViewById(R.id.startText);
         this.query = (Button) findViewById(R.id.query);
-        this.endbtn = (Button) findViewById(R.id.endbtn);
-        this.startbtn = (Button) findViewById(R.id.startbtn);
-        startbtn.setOnClickListener(new View.OnClickListener() {
+      //  this.endbtn = (Button) findViewById(R.id.endbtn);
+       // this.startbtn = (Button) findViewById(R.id.startbtn);
+        startText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDialog(DATE_DIALOG1);
             }
         });
-        endbtn.setOnClickListener(new View.OnClickListener() {
+        endText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDialog(DATE_DIALOG2);
@@ -86,10 +89,11 @@ public class RecordActivity extends AppCompatActivity {
         for (int i = 0; i < mList.size(); i++) {
             strList.add(mList.get(i).getCourseName());
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(RecordActivity.this, R.layout.my_spinner,R.id.text, strList);
-        adapter.setDropDownViewResource(R.layout.my_spinner);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(RecordActivity.this, R.layout.my_spinner,R.id.text, strList);
+        adapter1.setDropDownViewResource(R.layout.my_spinner);
+        spinner1.setAdapter(adapter1);
+        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 cId = mList.get(position).getObjectId();
@@ -100,6 +104,24 @@ public class RecordActivity extends AppCompatActivity {
 
             }
         });
+        final ArrayList<String> list = new ArrayList<String>();
+        list.add("缺勤");
+        list.add("已到");
+        final ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(RecordActivity.this, R.layout.my_spinner,R.id.text, list);
+        spinner2.setAdapter(adapter2);
+        spinner2.setSelection(0,true);
+        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         final Calendar ca = Calendar.getInstance();
             mYear = ca.get(Calendar.YEAR);
             mMonth = ca.get(Calendar.MONTH);
@@ -109,6 +131,7 @@ public class RecordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 User user = BmobUser.getCurrentUser(RecordActivity.this,User.class);
+                if(spinner2.getSelectedItem().toString().equals("已到")){
                 BmobQuery<Record> query1 = new BmobQuery<Record>();
                 query1.addWhereLessThanOrEqualTo("in_time",maxTime);
                 query1.addWhereEqualTo("cId",cId);
@@ -142,6 +165,46 @@ public class RecordActivity extends AppCompatActivity {
                         Toast.makeText(RecordActivity.this,"查询失败："+msg,Toast.LENGTH_SHORT).show();
                     }
                 });
+                }else {
+
+
+                    BmobQuery<NotArrive> query1 = new BmobQuery<NotArrive>();
+                    query1.addWhereLessThanOrEqualTo("Time",maxTime);
+                    query1.addWhereEqualTo("cId",cId);
+//返回50条数据，如果不加上这条语句，默认返回10条数据
+                    query1.setLimit(1000);
+                    BmobQuery<NotArrive> query2 = new BmobQuery<NotArrive>();
+                    query2.addWhereGreaterThanOrEqualTo("Time",minTime);
+                    List<BmobQuery<NotArrive>> queries = new ArrayList<BmobQuery<NotArrive>>();
+                    queries.add(query1);
+                    queries.add(query2);
+                    BmobQuery<NotArrive> query = new BmobQuery<NotArrive>();
+                    query.and(queries);
+//执行查询方法
+                    query.findObjects(RecordActivity.this, new FindListener<NotArrive>() {
+                        @Override
+                        public void onSuccess(List<NotArrive> object) {
+                            // TODO Auto-generated method stub
+
+                            if (object.size() == 0) {
+                                Toast.makeText(RecordActivity.this, "无记录", Toast.LENGTH_SHORT).show();
+                            } else {
+                                RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
+                                LinearLayoutManager manager = new LinearLayoutManager(RecordActivity.this);
+                                recyclerView.setLayoutManager(manager);
+                                NotArriveAdapter adapter = new NotArriveAdapter(object);
+                                recyclerView.setAdapter(adapter);
+                            }
+                        }
+                        @Override
+                        public void onError(int code, String msg) {
+                            // TODO Auto-generated method stub
+                            Toast.makeText(RecordActivity.this,"查询失败："+msg,Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+
+                }
             }
         });
 
