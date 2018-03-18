@@ -69,13 +69,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.CheckActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
         <activity android:name=".view.NewUser" />
         <activity android:name=".view.RecordActivity" />
-        <activity android:name=".view.NotArriveActivity" />
 
         <service
             android:name="com.baidu.location.f"

@@ -38,6 +38,7 @@ public class newPassword extends AppCompatActivity {
         showAccount.setText(user.getName());
 //        getSupportActionBar().hide();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
         newPassOK.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -29,7 +29,7 @@ public class UnSignOnAdapter extends RecyclerView.Adapter<UnSignOnAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         StudentCourse course = mList.get(position);
-        holder.name.setText(course.getName());
+        holder.name.setText("姓名："+course.getName());
         holder.id.setText("学号：" + course.getsId());
 
     }

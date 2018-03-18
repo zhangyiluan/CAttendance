@@ -27,7 +27,10 @@
             android:id="@+id/change_key"
             android:icon="@drawable/ic_menu_manage"
             android:title="更改密码" />
-
+            <item
+                android:id="@+id/exit"
+                android:icon="@drawable/ic_cancel_black_24dp"
+                android:title="退出登录"/>
 
         </menu>
     </item>

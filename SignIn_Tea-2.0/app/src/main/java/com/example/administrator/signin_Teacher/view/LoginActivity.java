@@ -30,10 +30,13 @@ public class LoginActivity extends AppCompatActivity {
     private User bu = new User();
     private String user;
     private String pass;
+    BmobUser bmobUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        bmobUser = BmobUser.getCurrentUser(this);
+        check();
         this.login = (Button) findViewById(R.id.login);
         this.keyword = (EditText) findViewById(R.id.keyword);
         this.username = (EditText) findViewById(R.id.username);
@@ -86,5 +89,14 @@ public class LoginActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+    private void check(){
+        if ( bmobUser != null){
+                startActivity(new Intent(this,MainActivity.class));
+                finish();
+        }else {
+            return;
+        }
+
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,7 +17,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@color/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:title=" "
             >
@@ -35,20 +36,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/blue500"
+        android:layout_marginTop="?actionBarSize"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="60dp"
+            android:layout_height="400dp"
             android:orientation="vertical">
-
             <TextView
                 android:id="@+id/sign_on_count"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:gravity="center"
-                android:layout_marginTop="10dp"
+                android:textColor="@color/white"
+                android:layout_marginTop="4dp"
                 android:textSize="40dp" />
 
             <LinearLayout
@@ -59,13 +61,11 @@
                     android:id="@+id/mRefresh"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="15dp">
+                    android:layout_margin="8dp">
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/sign_on_person"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
                         android:background="@color/white" />
                 </android.support.v4.widget.SwipeRefreshLayout>
             </LinearLayout>

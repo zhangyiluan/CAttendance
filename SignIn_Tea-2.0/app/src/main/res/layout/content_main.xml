@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,17 +10,6 @@
     tools:context="com.example.administrator.signin_Teacher.view.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <!--<Button-->
-        <!--android:id="@+id/start_sign_in"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="开始签到" />-->
-
-    <!--<Button-->
-        <!--android:id="@+id/show_num"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="结束签到" />-->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,32 +21,35 @@
             android:layout_height="wrap_content"
             android:visibility="gone" />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
 
         <com.baidu.mapapi.map.MapView
             android:id="@+id/bmapView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:clickable="true" />
+            android:layout_height="140dp"
+            android:clickable="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="10dp"
+            android:layout_toLeftOf="@+id/show_num"/>
 
-
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/start_sign_in"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/signin"
+                android:layout_marginBottom="16dp"
+                android:layout_above="@+id/show_num"
+                android:layout_alignParentEnd="true"/>
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/show_num"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_gravity="bottom|start"
-            android:layout_margin="16dp"
-            android:src="@drawable/end" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/start_sign_in"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="16dp"
-            android:src="@drawable/signin" />
-
+            android:src="@drawable/end"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
     </FrameLayout>
-
-
-</LinearLayout>
+</RelativeLayout>

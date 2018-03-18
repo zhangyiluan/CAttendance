@@ -1,31 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="8dp"
+    android:layout_margin="4dp">
 
     <LinearLayout
-
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@color/green"
+        android:background="@color/blue500"
         android:clickable="true"
         android:id="@+id/choose_course"
         android:orientation="vertical"
         >
-
-
         <CheckBox
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:id="@+id/setCourse"
             android:gravity="center"
             android:textColor="@color/white"
-            android:textSize="25dp" >
+            android:textSize="25sp" >
 
         </CheckBox>
 
@@ -38,12 +36,6 @@
             android:gravity="end"
             android:textColor="@color/white"
             android:textSize="15dp"
-
             />
-
     </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="2dp"/>
-</LinearLayout>
+</android.support.v7.widget.CardView>
