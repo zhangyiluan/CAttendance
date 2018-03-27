@@ -59,6 +59,11 @@
             <!--<category android:name="android.intent.category.LAUNCHER" />-->
         <!--</intent-filter>-->
         </activity>
+        <activity android:name=".view.NewsMainActivity">
+
+        </activity>
+        <activity android:name=".view.NewsDisplayActvivity">
+        </activity>
         <activity android:name=".view.newPassword"/>
         <activity
             android:name=".view.LoginActivity"
@@ -81,6 +86,25 @@
             android:name=".view.SetCourse"
             android:label="@string/title_activity_set_course"
             android:theme="@style/AppTheme.NoActionBar" />
+
+
+        <activity android:name=".schedule.ScheduleMainActivity">
+
+        </activity>
+        <activity android:name=".view.DetailsActivity">
+
+        </activity>
+        <receiver android:name=".schedule.WidgetProvider" >
+            <intent-filter android:priority="1000" >
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.kui.WidgetUpdate" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/provider" />
+        </receiver>
+        <service android:name=".schedule.ReceiverService"/>
+
     </application>
 
 </manifest>

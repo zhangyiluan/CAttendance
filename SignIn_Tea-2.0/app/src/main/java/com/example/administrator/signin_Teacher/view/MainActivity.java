@@ -26,7 +26,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -51,6 +50,7 @@ import com.example.administrator.signin_Teacher.module.NotArrive;
 import com.example.administrator.signin_Teacher.module.Record;
 import com.example.administrator.signin_Teacher.module.StudentCourse;
 import com.example.administrator.signin_Teacher.module.User;
+import com.example.administrator.signin_Teacher.schedule.ScheduleMainActivity;
 import com.example.administrator.signin_Teacher.tool.MyReceiver;
 
 import java.util.ArrayList;
@@ -86,7 +86,7 @@ FloatingActionButton.OnClickListener{
     public static User user;
     private List<Record> jList = new ArrayList<>();
     private List<StudentCourse> mStudentList = new ArrayList<>();
-    private TextView signOnCount;
+    private TextView signOnCount,details;
     private RecyclerView mRecycler;
     public static List<StudentCourse> mUnSignOn = new ArrayList<>();
     private UnSignOnAdapter adapter;
@@ -111,6 +111,12 @@ FloatingActionButton.OnClickListener{
         if (point == null) {
             signOnCount.setText("未发起签到");
         }
+        details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,DetailsActivity.class));
+            }
+        });
     }
 
     private void setNavAndToolBar(){
@@ -154,9 +160,10 @@ FloatingActionButton.OnClickListener{
         dpm = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE);
         component = new ComponentName(this, MyReceiver.class);
         this.shownum = (FloatingActionButton) findViewById(R.id.show_num);
-//        user = BmobUser.getCurrentUser(MainActivity.this,User.class);
+//        user = BmobUser.getCurrentUser(ScheduleMainActivity.this,User.class);
         this.startsignin = (FloatingActionButton) findViewById(R.id.start_sign_in);
         signOnCount = (TextView)findViewById(R.id.sign_on_count);
+        details = (TextView)findViewById(R.id.details);
         mRecycler = (RecyclerView)findViewById(R.id.sign_on_person);
         swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.mRefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -226,7 +233,7 @@ FloatingActionButton.OnClickListener{
                 for (int i = 0; i < mUnSignOn.size(); i++) {
                     mUnSignOn.remove(i);
                 }
-                // mUnSignOn = new ArrayList<StudentCourse>();
+                mUnSignOn = new ArrayList<StudentCourse>();
                 swipeRefreshLayout.setRefreshing(false);
                 signOnCount.setText(list.size() + "/" + mStudentList.size());
                 for (int i = 0; i < mStudentList.size(); ++i) {
@@ -237,7 +244,7 @@ FloatingActionButton.OnClickListener{
                         }
                     }
                     if (!flag) {
-                        mUnSignOn.add(mStudentList.get(i));
+                       mUnSignOn.add(mStudentList.get(i));
                     }
                 }
                 adapter.notifyDataSetChanged();
@@ -397,7 +404,7 @@ FloatingActionButton.OnClickListener{
         int id = item.getItemId();
 
         if (id == R.id.sign_in) {
-            Intent intent=new Intent(MainActivity.this,MainActivity.class);
+            Intent intent=new Intent(MainActivity.this, ScheduleMainActivity.class);
             startActivity(intent);
             // Handle the camera action
         } else if (id == R.id.curriculum) {
@@ -408,6 +415,9 @@ FloatingActionButton.OnClickListener{
             startActivity(intent);
         } else if (id == R.id.change_key) {
             Intent intent=new Intent(MainActivity.this,newPassword.class);
+            startActivity(intent);
+        } else if (id == R.id.news) {
+            Intent intent=new Intent(MainActivity.this,NewsMainActivity.class);
             startActivity(intent);
         }else if(id == R.id.exit){
             BmobUser.logOut(this);

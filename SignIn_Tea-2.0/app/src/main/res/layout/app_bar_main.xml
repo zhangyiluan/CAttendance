@@ -42,7 +42,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="140dp"
             android:orientation="vertical">
             <TextView
                 android:id="@+id/sign_on_count"
@@ -51,11 +51,24 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:layout_marginTop="4dp"
-                android:textSize="40dp" />
+                android:textSize="30dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:id="@+id/details"
+                android:background="@color/darkgray"
+                android:textSize="10dp"
+                android:clickable="true"
+                android:layout_gravity="center"
+                android:text="查看详情"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="60dp">
 
                 <android.support.v4.widget.SwipeRefreshLayout
                     android:id="@+id/mRefresh"
@@ -64,9 +77,9 @@
                     android:layout_margin="8dp">
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/sign_on_person"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/white" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
                 </android.support.v4.widget.SwipeRefreshLayout>
             </LinearLayout>
         </LinearLayout>

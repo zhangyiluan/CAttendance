@@ -5,7 +5,7 @@
         <item
             android:id="@+id/sign_in"
             android:icon="@drawable/ic_menu_camera"
-            android:title="考勤" />
+            android:title="我的课表" />
         <item
             android:id="@+id/curriculum"
             android:icon="@drawable/ic_menu_gallery"
@@ -14,7 +14,10 @@
             android:id="@+id/check"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="查看考勤" />
-
+        <item
+            android:id="@+id/news"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="河大要闻" />
     </group>
 
     <item android:title="设置">
