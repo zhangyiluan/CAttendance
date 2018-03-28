@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">SignIn_Stu-2.0</string>
+    
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_set_course">SetCourse</string>
+    <string name="title_activity_selected_course">SelectedCourse</string>
+    <string name="action_settings">Settings</string>
+</resources>
