@@ -30,7 +30,7 @@
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="SHGKjxhej6MxZWQeCMz6Yhlk3jUbNCMm" />
+            android:value="BLlmPq8Vi8gh9n3DIlAUNZNX3M4nPXcg" />
 
         <activity
             android:name=".view.LoginActivity"
@@ -42,13 +42,31 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.NewUser" />
-        <activity android:name=".view.RecordActivity" />
-        <activity android:name=".view.NotArriveActivity" />
+        <activity android:name=".view.RecordActivity" >
+        </activity>
         <activity
             android:name=".view.SetCourse"
             android:label="@string/title_activity_set_course"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".view.newPassword"/>
+        <activity android:name=".schedule.ScheduleMainActivity"/>
+        <activity android:name=".view.NewsMainActivity">
+
+        </activity>
+        <activity android:name=".view.NewsDisplayActvivity">
+        </activity>
+
+        <receiver android:name=".schedule.WidgetProvider" >
+            <intent-filter android:priority="1000" >
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.kui.WidgetUpdate" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/provider" />
+        </receiver>
+        <!--<service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote">-->
+        <!--</service>-->
     </application>
 
 </manifest>

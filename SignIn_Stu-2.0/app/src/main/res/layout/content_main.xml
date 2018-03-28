@@ -1,92 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_vertical_margin"
-    android:paddingRight="@dimen/activity_vertical_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.administrator.signin.view.MainActivity"
-    android:orientation="vertical">
-    <TableRow android:layout_weight="1">
+    tools:showIn="@layout/app_bar_main">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/darkgray">
+
         <RelativeLayout
-            android:background="@drawable/btn_back"
-            android:layout_weight="1">
-            <Button
-                android:background="@drawable/btn_back"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:text="签到"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+
+
+            <android.support.design.widget.FloatingActionButton
                 android:id="@+id/arrive"
-                android:gravity="bottom|center"
-                android:paddingBottom="24dp"/>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:background="@drawable/btn_back"
-            android:layout_weight="1">
-            <Button
-                android:background="@drawable/btn_back"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:text="签退"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/signin"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="10dp"
+                android:layout_alignParentBottom="true"/>
+            <android.support.design.widget.FloatingActionButton
                 android:id="@+id/exit"
-                android:gravity="bottom|center"
-                android:paddingBottom="24dp"/>
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/end"
+                android:layout_marginBottom="16dp"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true" />
         </RelativeLayout>
-        <RelativeLayout
-            android:background="@drawable/btn_back"
-            android:layout_weight="1">
-            <Button
-                android:background="@drawable/btn_back"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:text="签到记录"
-                android:id="@+id/record"
-                android:gravity="bottom|center"
-                android:paddingBottom="24dp"/>
-        </RelativeLayout>
-    </TableRow>
-
-    <TableRow android:layout_weight="1">
-        <RelativeLayout
-            android:background="@drawable/btn_back"
-            android:layout_weight="1">
-            <Button
-                android:background="@drawable/btn_back"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:text="缺勤记录"
-                android:id="@+id/not"
-                android:gravity="bottom|center"
-                android:paddingBottom="24dp"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:background="@drawable/btn_back"
-            android:layout_weight="1">
-            <Button
-                android:background="@drawable/btn_back"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:text="课程设置"
-                android:id="@+id/setCourse"
-                android:gravity="bottom|center"
-                android:paddingBottom="24dp"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:background="@drawable/btn_back"
-            android:layout_weight="1">
-            <Button
-                android:background="@drawable/btn_back"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:text="更改密码"
-                android:id="@+id/set_user"
-                android:gravity="bottom|center"
-                android:paddingBottom="24dp"
-                />
-        </RelativeLayout>
-    </TableRow>
-</TableLayout>
+    </FrameLayout>
+</RelativeLayout>

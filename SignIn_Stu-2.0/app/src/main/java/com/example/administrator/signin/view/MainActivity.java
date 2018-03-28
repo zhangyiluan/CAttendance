@@ -3,6 +3,7 @@ package com.example.administrator.signin.view;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
@@ -29,6 +29,7 @@ import com.example.administrator.signin.modul.GeoPoint;
 import com.example.administrator.signin.modul.Record;
 import com.example.administrator.signin.modul.StudentCourse;
 import com.example.administrator.signin.modul.User;
+import com.example.administrator.signin.schedule.ScheduleMainActivity;
 
 import java.util.List;
 
@@ -40,8 +41,8 @@ import cn.bmob.v3.listener.UpdateListener;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private android.widget.Button arrive;
-    private android.widget.Button exit;
+    private FloatingActionButton arrive;
+    private FloatingActionButton exit;
     private android.widget.Button record;
     public LocationClient mLocationClient = null;
     public BDLocationListener myListener = new MyLocationListener();
@@ -88,30 +89,15 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        this.activitymain = (LinearLayout) findViewById(R.id.activity_main);
-        this.setuser = (Button) findViewById(R.id.set_user);
-        this.setCourse = (Button) findViewById(R.id.setCourse);
-        this.not = (Button) findViewById(R.id.not);
-        this.record = (Button) findViewById(R.id.record);
-        this.exit = (Button) findViewById(R.id.exit);
-        this.arrive = (Button) findViewById(R.id.arrive);
+
         mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
         mLocationClient.registerLocationListener(myListener);    //注册监听函数
         initLocation();
         mLocationClient.start();
         user = BmobUser.getCurrentUser(MainActivity.this,User.class);
-        setCourse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,SetCourse.class));
-            }
-        });
-        setuser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,newPassword.class));
-            }
-        });
+        arrive = (FloatingActionButton) findViewById(R.id.arrive);
+//        user = BmobUser.getCurrentUser(ScheduleMainActivity.this,User.class);
+        exit = (FloatingActionButton) findViewById(R.id.exit);
         arrive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -205,18 +191,6 @@ public class MainActivity extends AppCompatActivity
                 });
             }
         });
-        record.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,RecordActivity.class));
-            }
-        });
-        not.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,NotArriveActivity.class));
-            }
-        });
     }
 
     @Override
@@ -257,17 +231,26 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.sign_in) {
+            Intent intent=new Intent(MainActivity.this, ScheduleMainActivity.class);
+            startActivity(intent);
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.curriculum) {
+            Intent intent=new Intent(MainActivity.this,SetCourse.class);
+            startActivity(intent);
+        } else if (id == R.id.check) {
+            Intent intent=new Intent(MainActivity.this,RecordActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.change_key) {
+            Intent intent=new Intent(MainActivity.this,newPassword.class);
+            startActivity(intent);
+        } else if (id == R.id.news) {
+            Intent intent=new Intent(MainActivity.this,NewsMainActivity.class);
+            startActivity(intent);
+        }else if(id == R.id.exit){
+            BmobUser.logOut(this);
+            startActivity(new Intent(this,LoginActivity.class));
+            finish();
 
         }
 

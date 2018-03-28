@@ -20,4 +20,6 @@
     <color name="item_background">#FFF5EE</color>
     <color name="btn_pressed_color">#3ca0ec</color>
     <color name="item_text_color">#FF89796A</color>
+    <color name="blue_one">#6899d3</color>
+    <color name="blue500">#2196F3</color>
 </resources>

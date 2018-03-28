@@ -1,15 +1,11 @@
 package com.example.administrator.signin.adapter;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.administrator.signin.R;
 import com.example.administrator.signin.modul.NotArrive;
@@ -17,8 +13,6 @@ import com.example.administrator.signin.modul.NotArrive;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
-import cn.bmob.v3.listener.UpdateListener;
 
 /**
  * Created by Administrator on 2017-01-23 .
@@ -37,7 +31,7 @@ public class NotArriveAdapter extends RecyclerView.Adapter<NotArriveAdapter.View
             name = (TextView)view.findViewById(R.id.name);
             title = (TextView)view.findViewById(R.id.title);
             time = (TextView)view.findViewById(R.id.time);
-            notArrive = (TextView)view.findViewById(R.id.not_arrive);
+           // notArrive = (TextView)view.findViewById(R.id.not_arrive);
         }
     }
     public NotArriveAdapter(Context context, List<NotArrive> list){this.context = context;mList = list;}
@@ -63,43 +57,43 @@ public class NotArriveAdapter extends RecyclerView.Adapter<NotArriveAdapter.View
             }
         }
         holder.title.setText(str);
-        holder.notArrive.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                LayoutInflater layoutInflater = LayoutInflater.from(context);
-                View conView = layoutInflater.inflate(R.layout.title, null);
-                final EditText editText = (EditText)conView.findViewById(R.id.start_sign_in_id);
-                builder.setView(conView);
-                builder.setTitle("请输入缺勤原因");
-                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        final String str = editText.getText().toString();
-                        record.setTitle(str);
-
-                        record.update(context, new UpdateListener() {
-                            @Override
-                            public void onSuccess() {
-                                Toast.makeText(context, "上传成功", Toast.LENGTH_SHORT).show();
-                                holder.title.setText(str);
-                            }
-
-                            @Override
-                            public void onFailure(int i, String s) {
-                                Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                });
-                builder.show();
-            }
-        });
+//        holder.notArrive.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//                LayoutInflater layoutInflater = LayoutInflater.from(context);
+//                View conView = layoutInflater.inflate(R.layout.title, null);
+//                final EditText editText = (EditText)conView.findViewById(R.id.start_sign_in_id);
+//                builder.setView(conView);
+//                builder.setTitle("请输入缺勤原因");
+//                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                    }
+//                });
+//                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        final String str = editText.getText().toString();
+//                        record.setTitle(str);
+//
+//                        record.update(context, new UpdateListener() {
+//                            @Override
+//                            public void onSuccess() {
+//                                Toast.makeText(context, "上传成功", Toast.LENGTH_SHORT).show();
+//                                holder.title.setText(str);
+//                            }
+//
+//                            @Override
+//                            public void onFailure(int i, String s) {
+//                                Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+//                    }
+//                });
+//                builder.show();
+//            }
+//        });
 
     }
 
