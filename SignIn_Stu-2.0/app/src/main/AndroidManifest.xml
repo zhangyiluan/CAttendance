@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.administrator.signin">
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <!-- 这个权限用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- 这个权限用于访问GPS定位 -->
@@ -26,12 +27,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".view.MainActivity" />
+
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="BLlmPq8Vi8gh9n3DIlAUNZNX3M4nPXcg" />
-
+        <activity android:name=".view.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
         <activity
             android:name=".view.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -65,8 +68,8 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/provider" />
         </receiver>
-        <!--<service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote">-->
-        <!--</service>-->
+        <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote">
+        </service>
     </application>
 
 </manifest>

@@ -1,10 +1,14 @@
 package com.example.administrator.signin.view;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,12 +21,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.SDKInitializer;
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.model.LatLng;
 import com.example.administrator.signin.Cal;
 import com.example.administrator.signin.R;
 import com.example.administrator.signin.modul.GeoPoint;
@@ -31,6 +43,7 @@ import com.example.administrator.signin.modul.StudentCourse;
 import com.example.administrator.signin.modul.User;
 import com.example.administrator.signin.schedule.ScheduleMainActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
@@ -45,6 +58,13 @@ public class MainActivity extends AppCompatActivity
     private FloatingActionButton exit;
     private android.widget.Button record;
     public LocationClient mLocationClient = null;
+    private TextView positionText;
+
+    private MapView mapView;
+
+    private BaiduMap baiduMap;
+
+    private boolean isFirstLocate = true;
     public BDLocationListener myListener = new MyLocationListener();
     private Button not;
     private int id;
@@ -58,10 +78,14 @@ public class MainActivity extends AppCompatActivity
     public static User user;
     private Button setuser;
     private android.widget.LinearLayout activitymain;
+    public static GeoPoint point;
     private void initLocation() {
+        mLocationClient = new LocationClient(getApplicationContext());
+        mLocationClient.registerLocationListener(myListener);
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy
         );//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
+        baiduMap.setMapStatus(MapStatusUpdateFactory.zoomTo(16f));
         option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系
         int span = 1000;
         option.setScanSpan(span);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
@@ -69,15 +93,18 @@ public class MainActivity extends AppCompatActivity
         option.setOpenGps(true);//可选，默认false,设置是否使用gps
         option.setLocationNotify(true);//可选，默认false，设置是否当GPS有效时按照1S/1次频率输出GPS结果
         option.setIsNeedLocationDescribe(true);//可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
-        option.setIsNeedLocationPoiList(false);//可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
-        option.setIgnoreKillProcess(false);//可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
-        option.SetIgnoreCacheException(false);//可选，默认false，设置是否收集CRASH信息，默认收集
-        option.setEnableSimulateGps(false);//可选，默认false，设置是否需要过滤GPS仿真结果，默认需要
+//        option.setIsNeedLocationPoiList(false);//可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
+//        option.setIgnoreKillProcess(false);//可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
+//        option.SetIgnoreCacheException(false);//可选，默认false，设置是否收集CRASH信息，默认收集
+//        option.setEnableSimulateGps(false);//可选，默认false，设置是否需要过滤GPS仿真结果，默认需要
         mLocationClient.setLocOption(option);
+        mLocationClient.start();
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -90,8 +117,30 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
-        mLocationClient.registerLocationListener(myListener);    //注册监听函数
+//        mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
+//        mLocationClient.registerLocationListener(myListener);    //注册监听函数
+        mapView = (MapView) findViewById(R.id.bmapView);
+        baiduMap = mapView.getMap();
+        baiduMap.setMyLocationEnabled(true);
+        positionText = (TextView) findViewById(R.id.position_text_view);
+        List<String> permissionList = new ArrayList<>();
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            permissionList.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            permissionList.add(Manifest.permission.READ_PHONE_STATE);
+        }
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if (!permissionList.isEmpty()) {
+            String [] permissions = permissionList.toArray(new String[permissionList.size()]);
+            ActivityCompat.requestPermissions(MainActivity.this, permissions, 1);
+        } else {
+            requestLocation();
+        }
+
+
         initLocation();
         mLocationClient.start();
         user = BmobUser.getCurrentUser(MainActivity.this,User.class);
@@ -192,6 +241,76 @@ public class MainActivity extends AppCompatActivity
             }
         });
     }
+
+
+    //map
+    private void navigateTo(BDLocation location) {
+        if (isFirstLocate) {
+            Toast.makeText(this, "nav to " + location.getAddrStr(), Toast.LENGTH_SHORT).show();
+            LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
+            MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(ll);
+            baiduMap.animateMapStatus(update);
+            update = MapStatusUpdateFactory.zoomTo(16f);
+            baiduMap.animateMapStatus(update);
+            isFirstLocate = false;
+        }
+        MyLocationData.Builder locationBuilder = new MyLocationData.
+                Builder();
+        locationBuilder.latitude(location.getLatitude());
+        locationBuilder.longitude(location.getLongitude());
+        MyLocationData locationData = locationBuilder.build();
+        baiduMap.setMyLocationData(locationData);
+    }
+
+    private void requestLocation() {
+        initLocation();
+        mLocationClient.start();
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mLocationClient.stop();
+        mapView.onDestroy();
+        baiduMap.setMyLocationEnabled(false);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case 1:
+                if (grantResults.length > 0) {
+                    for (int result : grantResults) {
+                        if (result != PackageManager.PERMISSION_GRANTED) {
+                            Toast.makeText(this, "必须同意所有权限才能使用本程序", Toast.LENGTH_SHORT).show();
+                            finish();
+                            return;
+                        }
+                    }
+                    requestLocation();
+                } else {
+                    Toast.makeText(this, "发生未知错误", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                break;
+            default:
+        }
+    }
+
+
 
     @Override
     public void onBackPressed() {
@@ -304,9 +423,26 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void onReceiveLocation(BDLocation location) {
             //Receive Location
-            Longitude = location.getLongitude();
-            Latitude = location.getLatitude();
-        }
+            if (location.getLocType() == BDLocation.TypeGpsLocation
+                    || location.getLocType() == BDLocation.TypeNetWorkLocation) {
+                navigateTo(location);
+            }
+            //Receive Location
+            if (point != null) {
+                point.setLatitude(location.getLatitude());
+                point.setLongitude(location.getLongitude());
+                point.update(MainActivity.this, point.getObjectId(), new UpdateListener() {
+                    @Override
+                    public void onSuccess() {
+                    }
+
+                    @Override
+                    public void onFailure(int i, String s) {
+
+                    }
+                });
+            }
+    }
     }
 
 }
