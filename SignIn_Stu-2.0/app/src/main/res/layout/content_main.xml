@@ -30,24 +30,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clickable="true" />
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/arrive"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:src="@drawable/signin"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="10dp"
-                android:layout_alignParentBottom="true"/>
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/exit"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:src="@drawable/end"
-                android:layout_marginBottom="16dp"
-                android:layout_marginRight="10dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true" />
+            <!--<android.support.design.widget.FloatingActionButton-->
+                <!--android:id="@+id/arrive"-->
+                <!--android:layout_width="70dp"-->
+                <!--android:layout_height="70dp"-->
+                <!--android:src="@drawable/signin"-->
+                <!--android:layout_marginBottom="16dp"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:layout_alignParentBottom="true"/>-->
+            <!--<android.support.design.widget.FloatingActionButton-->
+                <!--android:id="@+id/exit"-->
+                <!--android:layout_width="70dp"-->
+                <!--android:layout_height="70dp"-->
+                <!--android:src="@drawable/end"-->
+                <!--android:layout_marginBottom="16dp"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_alignParentRight="true" />-->
         </RelativeLayout>
     </FrameLayout>
 </RelativeLayout>

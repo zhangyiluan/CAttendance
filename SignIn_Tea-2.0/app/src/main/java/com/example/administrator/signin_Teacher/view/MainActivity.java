@@ -75,8 +75,8 @@ FloatingActionButton.OnClickListener{
     private BaiduMap baiduMap;
     private boolean isFirstLocate = true;
     private android.widget.Button record;
-    private FloatingActionButton startsignin;
-    private FloatingActionButton shownum;
+    private TextView startsignin,map;
+    private TextView shownum;
     public LocationClient mLocationClient = null;
     public BDLocationListener myListener = new MyLocationListener();
     private int id;
@@ -109,7 +109,7 @@ FloatingActionButton.OnClickListener{
         adapter = new UnSignOnAdapter(MainActivity.this,R.id.sign_on_person,mUnSignOn);
         mRecycler.setAdapter(adapter);
         if (point == null) {
-            signOnCount.setText("未发起签到");
+            signOnCount.setText("0/0");
         }
         details.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,9 +159,10 @@ FloatingActionButton.OnClickListener{
     private void initWidget(){
         dpm = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE);
         component = new ComponentName(this, MyReceiver.class);
-        this.shownum = (FloatingActionButton) findViewById(R.id.show_num);
+        this.map = (TextView) findViewById(R.id.map);
+        this.shownum = (TextView) findViewById(R.id.show_num);
 //        user = BmobUser.getCurrentUser(ScheduleMainActivity.this,User.class);
-        this.startsignin = (FloatingActionButton) findViewById(R.id.start_sign_in);
+        this.startsignin = (TextView) findViewById(R.id.start_sign_in);
         signOnCount = (TextView)findViewById(R.id.sign_on_count);
         details = (TextView)findViewById(R.id.details);
         mRecycler = (RecyclerView)findViewById(R.id.sign_on_person);
@@ -169,6 +170,7 @@ FloatingActionButton.OnClickListener{
         swipeRefreshLayout.setOnRefreshListener(this);
         startsignin.setOnClickListener(this);
         shownum.setOnClickListener(this);
+        map.setOnClickListener(this);
     }
 
     /**
@@ -611,7 +613,7 @@ FloatingActionButton.OnClickListener{
                                     mStudentList.clear();
                                     mUnSignOn.clear();
                                     adapter.notifyDataSetChanged();
-                                    signOnCount.setText("未发起签到");
+                                    signOnCount.setText("0/0");
                                     Toast.makeText(MainActivity.this, "已结束签到！", Toast.LENGTH_SHORT).show();
                                     point=null;
                                     record=null;
@@ -632,6 +634,9 @@ FloatingActionButton.OnClickListener{
                     }
                 });
 
+                break;
+            case R.id.map:
+                startActivity(new Intent(MainActivity.this,MapActivity.class));
                 break;
         }
     }

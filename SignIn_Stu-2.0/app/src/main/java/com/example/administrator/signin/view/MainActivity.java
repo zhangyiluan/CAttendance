@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -54,8 +53,8 @@ import cn.bmob.v3.listener.UpdateListener;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private FloatingActionButton arrive;
-    private FloatingActionButton exit;
+    private TextView arrive;
+    private TextView exit;
     private android.widget.Button record;
     public LocationClient mLocationClient = null;
     private TextView positionText;
@@ -144,9 +143,9 @@ public class MainActivity extends AppCompatActivity
         initLocation();
         mLocationClient.start();
         user = BmobUser.getCurrentUser(MainActivity.this,User.class);
-        arrive = (FloatingActionButton) findViewById(R.id.arrive);
+        arrive = (TextView) findViewById(R.id.arrive);
 //        user = BmobUser.getCurrentUser(ScheduleMainActivity.this,User.class);
-        exit = (FloatingActionButton) findViewById(R.id.exit);
+        exit = (TextView) findViewById(R.id.exit);
         arrive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -422,6 +421,8 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public void onReceiveLocation(BDLocation location) {
+            Longitude = location.getLongitude();
+            Latitude = location.getLatitude();
             //Receive Location
             if (location.getLocType() == BDLocation.TypeGpsLocation
                     || location.getLocType() == BDLocation.TypeNetWorkLocation) {

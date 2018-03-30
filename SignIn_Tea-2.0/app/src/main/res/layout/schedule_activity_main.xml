@@ -6,7 +6,7 @@
     android:id="@+id/shedule_activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1e5d78"
+    android:background="#c04284d3"
     tools:context="com.example.administrator.signin_Teacher.schedule.ScheduleMainActivity">
     <LinearLayout
         android:id="@+id/scheduleDisplay"
@@ -20,18 +20,11 @@
                 android:id="@+id/scheduleDisplay_title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#804284d3"
+                android:background="#000000"
                 android:text="我的课表"
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="15sp"/>
-            <ImageView
-                android:id="@+id/image_you"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_margin="10dp"
-                android:clickable="true"
-                android:src="@drawable/you_white"/>
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
