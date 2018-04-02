@@ -45,6 +45,7 @@ import com.baidu.mapapi.model.LatLng;
 import com.example.administrator.signin_Teacher.R;
 import com.example.administrator.signin_Teacher.adapter.UnSignOnAdapter;
 import com.example.administrator.signin_Teacher.calendar.CalendarMainActivity;
+import com.example.administrator.signin_Teacher.game.Main2048Activity;
 import com.example.administrator.signin_Teacher.module.Course;
 import com.example.administrator.signin_Teacher.module.GeoPoint;
 import com.example.administrator.signin_Teacher.module.NotArrive;
@@ -645,6 +646,9 @@ FloatingActionButton.OnClickListener{
                 break;
             case R.id.calendar:
                 startActivity(new Intent(MainActivity.this,CalendarMainActivity.class));
+                break;
+            case R.id.fine:
+                startActivity(new Intent(MainActivity.this,Main2048Activity.class));
                 break;
         }
     }

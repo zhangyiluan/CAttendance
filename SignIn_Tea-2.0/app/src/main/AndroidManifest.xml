@@ -95,6 +95,14 @@
         <activity android:name=".view.DetailsActivity">
 
         </activity>
+        <activity android:name=".calendar.CalendarMainActivity">
+    </activity>
+       <activity android:name=".game.Main2048Activity">
+
+       </activity>
+        <activity android:launchMode="singleTop"
+            android:name="com.example.administrator.signin_Teacher.calendar.activity.ADDDouteActivity"/>
+
         <receiver android:name=".schedule.WidgetProvider" >
             <intent-filter android:priority="1000" >
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -108,11 +116,7 @@
 
 
 
-        <activity android:name=".calendar.CalendarMainActivity">
-        </activity>
 
-        <activity android:launchMode="singleTop"
-            android:name="com.example.administrator.signin_Teacher.calendar.activity.ADDDouteActivity"/>
     </application>
 
 </manifest>
