@@ -36,6 +36,7 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.example.administrator.signin.Cal;
 import com.example.administrator.signin.R;
+import com.example.administrator.signin.calendar.CalendarMainActivity;
 import com.example.administrator.signin.modul.GeoPoint;
 import com.example.administrator.signin.modul.Record;
 import com.example.administrator.signin.modul.StudentCourse;
@@ -53,7 +54,7 @@ import cn.bmob.v3.listener.UpdateListener;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private TextView arrive;
+    private TextView arrive,calendar;
     private TextView exit;
     private android.widget.Button record;
     public LocationClient mLocationClient = null;
@@ -146,6 +147,7 @@ public class MainActivity extends AppCompatActivity
         arrive = (TextView) findViewById(R.id.arrive);
 //        user = BmobUser.getCurrentUser(ScheduleMainActivity.this,User.class);
         exit = (TextView) findViewById(R.id.exit);
+        calendar=(TextView) findViewById(R.id.calendar);
         arrive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -237,6 +239,13 @@ public class MainActivity extends AppCompatActivity
                         Toast.makeText(MainActivity.this, "签退失败", Toast.LENGTH_SHORT).show();
                     }
                 });
+            }
+        });
+        calendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(MainActivity.this,CalendarMainActivity.class));
             }
         });
     }

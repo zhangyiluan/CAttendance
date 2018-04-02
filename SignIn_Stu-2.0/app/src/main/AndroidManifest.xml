@@ -70,6 +70,14 @@
         </receiver>
         <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote">
         </service>
+
+
+        <activity android:name=".calendar.CalendarMainActivity">
+
+        </activity>
+
+        <activity android:launchMode="singleTop"
+            android:name="com.example.administrator.signin.calendar.activity.ADDDouteActivity"/>
     </application>
 
 </manifest>

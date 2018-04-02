@@ -44,6 +44,7 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.example.administrator.signin_Teacher.R;
 import com.example.administrator.signin_Teacher.adapter.UnSignOnAdapter;
+import com.example.administrator.signin_Teacher.calendar.CalendarMainActivity;
 import com.example.administrator.signin_Teacher.module.Course;
 import com.example.administrator.signin_Teacher.module.GeoPoint;
 import com.example.administrator.signin_Teacher.module.NotArrive;
@@ -75,7 +76,7 @@ FloatingActionButton.OnClickListener{
     private BaiduMap baiduMap;
     private boolean isFirstLocate = true;
     private android.widget.Button record;
-    private TextView startsignin,map;
+    private TextView startsignin,map,calendar,fine;
     private TextView shownum;
     public LocationClient mLocationClient = null;
     public BDLocationListener myListener = new MyLocationListener();
@@ -160,6 +161,8 @@ FloatingActionButton.OnClickListener{
         dpm = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE);
         component = new ComponentName(this, MyReceiver.class);
         this.map = (TextView) findViewById(R.id.map);
+        this.calendar=(TextView) findViewById(R.id.calendar);
+        this.fine=(TextView) findViewById(R.id.fine);
         this.shownum = (TextView) findViewById(R.id.show_num);
 //        user = BmobUser.getCurrentUser(ScheduleMainActivity.this,User.class);
         this.startsignin = (TextView) findViewById(R.id.start_sign_in);
@@ -171,6 +174,8 @@ FloatingActionButton.OnClickListener{
         startsignin.setOnClickListener(this);
         shownum.setOnClickListener(this);
         map.setOnClickListener(this);
+        calendar.setOnClickListener(this);
+       fine.setOnClickListener(this);
     }
 
     /**
@@ -637,6 +642,9 @@ FloatingActionButton.OnClickListener{
                 break;
             case R.id.map:
                 startActivity(new Intent(MainActivity.this,MapActivity.class));
+                break;
+            case R.id.calendar:
+                startActivity(new Intent(MainActivity.this,CalendarMainActivity.class));
                 break;
         }
     }

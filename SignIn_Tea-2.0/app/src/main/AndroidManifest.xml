@@ -106,6 +106,13 @@
         </receiver>
         <service android:name=".schedule.ReceiverService"/>
 
+
+
+        <activity android:name=".calendar.CalendarMainActivity">
+        </activity>
+
+        <activity android:launchMode="singleTop"
+            android:name="com.example.administrator.signin_Teacher.calendar.activity.ADDDouteActivity"/>
     </application>
 
 </manifest>
