@@ -117,7 +117,7 @@ public class SetCourse extends AppCompatActivity {
                         @Override
                         public void onFailure(int i, String s) {
                             Toast.makeText(SetCourse.this, i+s, Toast.LENGTH_SHORT).show();
-                                //addCourseToDB();
+                            //addCourseToDB();
                         }
                     });
                 }

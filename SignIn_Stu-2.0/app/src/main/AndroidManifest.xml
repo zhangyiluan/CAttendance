@@ -22,9 +22,8 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/head_down_512px"
         android:label="考勤系统"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
 
@@ -49,8 +48,9 @@
         </activity>
         <activity
             android:name=".view.SetCourse"
-            android:label="@string/title_activity_set_course"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="课程设置"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
         <activity android:name=".view.newPassword"/>
         <activity android:name=".schedule.ScheduleMainActivity"/>
         <activity android:name=".view.NewsMainActivity">
@@ -75,6 +75,7 @@
         <activity android:name=".calendar.CalendarMainActivity">
 
         </activity>
+        <activity android:name=".view.MapActivity"/>
         <activity android:name=".game.Main2048Activity"/>
         <activity android:launchMode="singleTop"
             android:name="com.example.administrator.signin.calendar.activity.ADDDouteActivity"/>

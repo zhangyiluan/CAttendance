@@ -4,28 +4,24 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/sign_in"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/mytimetable"
             android:title="我的课表" />
         <item
             android:id="@+id/curriculum"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/setclass"
             android:title="课程设置" />
         <item
             android:id="@+id/check"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/seesign"
             android:title="查看考勤" />
         <item
             android:id="@+id/news"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/hedanews"
             android:title="河大要闻" />
     </group>
 
     <item android:title="设置">
         <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="分享" />
             <item
             android:id="@+id/change_key"
             android:icon="@drawable/ic_menu_manage"

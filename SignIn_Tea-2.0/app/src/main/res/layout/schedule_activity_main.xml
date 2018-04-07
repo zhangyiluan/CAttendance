@@ -6,7 +6,7 @@
     android:id="@+id/shedule_activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#c04284d3"
+    android:background="#c0b8d6fa"
     tools:context="com.example.administrator.signin_Teacher.schedule.ScheduleMainActivity">
     <LinearLayout
         android:id="@+id/scheduleDisplay"

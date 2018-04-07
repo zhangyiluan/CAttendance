@@ -1,9 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp">
-                <com.example.administrator.signin_Teacher.calendar.view.SelecteView android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@color/colorPrimary"
+                    app:popupTheme="@style/AppTheme.PopupOverlay"
+                    app:title=" "
+                    >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/maintitle"
+                            android:text="日历记事本"
+                            android:layout_gravity="center"
+                            android:textColor="#FFFFFF"
+                            android:textSize="20dp"/>
+                </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.AppBarLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:padding="10dp">
+                <com.example.administrator.signin_Teacher.calendar.view.SelecteView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/select_view"/>
                 <com.example.administrator.signin_Teacher.calendar.view.WeekDataView
@@ -33,4 +64,4 @@
                     android:background="@drawable/add_route_selector"
                     android:src="@mipmap/ic_add"/>
 </RelativeLayout>
-
+    </RelativeLayout>

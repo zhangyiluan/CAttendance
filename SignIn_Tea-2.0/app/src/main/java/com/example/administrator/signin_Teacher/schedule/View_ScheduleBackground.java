@@ -33,7 +33,7 @@ public class View_ScheduleBackground extends View {
         textPaint.setAntiAlias(true);
         textPaint.setStrokeWidth(3);
         textPaint.setStyle(Paint.Style.FILL);
-        textPaint.setColor(Color.WHITE);
+        textPaint.setColor(Color.BLACK);
         textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setTextSize(20);
 

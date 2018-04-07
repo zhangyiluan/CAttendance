@@ -74,14 +74,14 @@
 
 
                 <TextView
-                    android:id="@+id/details"
+                    android:id="@+id/calendar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:drawableTop="@drawable/detail"
-                    android:text="详情"
+                    android:drawableTop="@drawable/calendar"
+                    android:text="日历"
                     />
                 <TextView
                     android:id="@+id/map"
@@ -101,16 +101,7 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/calendar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:drawableTop="@drawable/calendar"
-                    android:text="日历"
-                    />
+
                 <TextView
                     android:id="@+id/fine"
                     android:layout_width="wrap_content"
@@ -121,7 +112,16 @@
                     android:drawableTop="@drawable/game"
                     android:text="娱乐"
                     />
-
+                <TextView
+                    android:id="@+id/more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:drawableTop="@drawable/add"
+                    android:text="更多"
+                    />
             </LinearLayout>
 </LinearLayout>
         </LinearLayout>

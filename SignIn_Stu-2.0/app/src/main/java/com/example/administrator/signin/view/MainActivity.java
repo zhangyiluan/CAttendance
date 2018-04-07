@@ -55,7 +55,7 @@ import cn.bmob.v3.listener.UpdateListener;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private TextView arrive,calendar,fine;
+    private TextView arrive,calendar,fine,map;
     private TextView exit;
     private android.widget.Button record;
     public LocationClient mLocationClient = null;
@@ -149,6 +149,7 @@ public class MainActivity extends AppCompatActivity
 //        user = BmobUser.getCurrentUser(ScheduleMainActivity.this,User.class);
         exit = (TextView) findViewById(R.id.exit);
         fine=(TextView) findViewById(R.id.fine);
+        map=(TextView) findViewById(R.id.map);
         calendar=(TextView) findViewById(R.id.calendar);
         arrive.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -257,6 +258,13 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(MainActivity.this,Main2048Activity.class));
             }
         });
+        map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(MainActivity.this,MapActivity.class));
+            }
+        });
     }
 
 
@@ -342,7 +350,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -354,9 +361,6 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }

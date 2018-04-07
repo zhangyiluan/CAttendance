@@ -1,4 +1,4 @@
-package com.example.administrator.signin_Teacher.view;
+package com.example.administrator.signin.view;
 
 /**
  * Created by Administrator on 2018/3/30.
@@ -24,7 +24,7 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
-import com.example.administrator.signin_Teacher.R;
+import com.example.administrator.signin.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +63,7 @@ public class MapActivity extends AppCompatActivity {
             permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
         if (!permissionList.isEmpty()) {
-            String [] permissions = permissionList.toArray(new String[permissionList.size()]);
+            String[] permissions = permissionList.toArray(new String[permissionList.size()]);
             ActivityCompat.requestPermissions(MapActivity.this, permissions, 1);
         } else {
             requestLocation();

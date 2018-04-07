@@ -36,7 +36,7 @@ public class newPassword extends AppCompatActivity {
         this.usedPass = (EditText) findViewById(R.id.usedPass);
         this.showAccount = (TextView) findViewById(R.id.show_account);
         showAccount.setText(user.getName());
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
         newPassOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
